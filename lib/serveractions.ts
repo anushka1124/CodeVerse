@@ -30,6 +30,7 @@ export const sendMessage = async(
     messageType: 'text' | 'image'
 ) => {
     try {
+        //error here
         await connectDatabase();
         const authUser = await auth();
         const senderId = authUser?.user?._id;
@@ -37,7 +38,8 @@ export const sendMessage = async(
 
         let uploadResponse;
         if(messageType === 'image') {
-            uploadResponse = await cloudinary.uploader.upload(content);
+            uploadResponse = await cloudinary.uploader.upload(content, {public_id: "shoe"});
+            console.log(uploadResponse);
         }
 
         const newMessage: MessageDocument = await Message.create({
@@ -85,9 +87,11 @@ export const deleteChat = async (userId: string) => {
 
         await Message.deleteMany({_id: {$in: messageIdString}});
         await chat.deleteOne({_id: chat._id});
-        
+        revalidatePath(`/chat/${userId}`);
     } catch (error) {
         console.log(error);
         throw error;
     }
+
+    redirect('/chat');
 }

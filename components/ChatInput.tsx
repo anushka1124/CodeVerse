@@ -2,7 +2,7 @@
 import React, { useState } from 'react'
 import { MdPhotoCamera } from 'react-icons/md'
 import { Button } from './ui/button'
-import EmojiPopover from './EmojiPopover'
+import {EmojiPopover} from './EmojiPopover'
 import { sendMessage } from '@/lib/serveractions';
 import { useParams } from 'next/navigation';
 import { Loader2 } from 'lucide-react';
@@ -60,7 +60,7 @@ const ChatInput = () => {
         </div>
       </form>
       <div>
-        {/* <EmojiPopover/> */}
+        <EmojiPopover/>
       </div>
     </div>
   )

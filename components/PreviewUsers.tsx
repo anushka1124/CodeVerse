@@ -41,7 +41,11 @@ const PreviewUsers = (
   const sendMessageHandler = async () => {
     setSendMessageLoading(true);
     try {
-      await sendMessage(selectedFile, selectedUser?._id, 'image');
+      await sendMessage(
+        selectedFile,
+        selectedUser?._id,
+        'image'
+      );
       console.log(selectedUser?._id)
       router.push(`/chat/${selectedUser?._id}`);
     } catch (error) {

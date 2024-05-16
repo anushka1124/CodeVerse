@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import React from 'react'
 
 const ChatBody = async ({message, authUser}: {message: any, authUser: any}) => {
@@ -8,10 +9,10 @@ const ChatBody = async ({message, authUser}: {message: any, authUser: any}) => {
 
           // const me = messages.senderId._id === authUser.user?._id;
           const me = messages.senderId._id !== authUser.user?._id;
-          const isMessageType = messages.messageType === 'image';
+          const isMessageImage = messages.messageType === 'image';
           const isPrevMessageFromSameUser = index > 0 && message[index-1].senderId._id == messages.senderId._id;
           return (
-            <div className='w-full'>
+            <div key={messages._id} className='w-full'>
               {
                 !isPrevMessageFromSameUser && (
                   <p className= {`font-bold mt-2 text-xs ${me? 'text-[#969696]': 'text-[#000000]'}`}>{me ? "me": "friend"}</p>
@@ -19,7 +20,19 @@ const ChatBody = async ({message, authUser}: {message: any, authUser: any}) => {
               }
               <div className={`border-l-2 ${me? 'border-l-[#969696]' : 'border-l-[#000000]'}`}>
                 <div className='flex items-center w-1/2 p-2 rounded-sm'>
-                  <p>{messages.content}</p>
+                  {
+                    isMessageImage ? (
+                      <Image 
+                        src = {messages.content}
+                        alt= 'img'
+                        width={100}
+                        height={100}
+                        className='h-auto w-auto object-cover cursor-pointer'
+                      />
+                    ) : (
+                      <p>{messages.content}</p>
+                    )
+                  }
                 </div>
               </div>
             </div>
